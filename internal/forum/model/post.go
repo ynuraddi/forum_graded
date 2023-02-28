@@ -4,6 +4,7 @@ import "time"
 
 type Post struct {
 	ID          uint64
+	AuthorID    uint64
 	CommunityID uint64
 	CreatedAt   time.Time
 	UpgradedAt  time.Time
@@ -16,7 +17,7 @@ type Post struct {
 	Version uint64
 }
 
-// type PostCreateDTO struct {
-// 	Title   string
-// 	Content string
-// }
+type PostCreateDTO struct {
+	Title   string
+	Content string
+}

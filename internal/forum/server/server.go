@@ -1,9 +1,16 @@
 package server
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
+
+	"forum/pkg/logging"
 )
 
 type Config struct {
@@ -12,6 +19,11 @@ type Config struct {
 	IdleTimeout  int    `json:"idleTimeout"`
 	ReadTimeout  int    `json:"readTimeout"`
 	WriteTimeout int    `json:"writeTimeout"`
+	EndTimeLimit int    `json:"endTimeLimit"`
+}
+
+type Server struct {
+	*http.Server
 }
 
 func NewServer(cfg *Config, handler http.Handler) *http.Server {
@@ -24,27 +36,48 @@ func NewServer(cfg *Config, handler http.Handler) *http.Server {
 	}
 }
 
-const endTimeLimit = 5 * time.Second
+func (s *Server) Serve(cfg Config) error {
+	srv := http.Server{
+		Addr:         fmt.Sprintf("%s:%s", cfg.Host, cfg.Port),
+		Handler:      s.Handler,
+		IdleTimeout:  s.IdleTimeout,
+		ReadTimeout:  s.ReadTimeout,
+		WriteTimeout: s.WriteTimeout,
+	}
 
-// func (s *server) Serve() error {
-// 	srv := http.Server{
-// 		Addr: fmt.Sprintf("%s:%s", s.host, s.port),
-// 		Handler: s.handler,
-// 		IdleTimeout: s.idleTimeout,
-// 		ReadTimeout: s.readTimeout,
-// 		WriteTimeout: s.writeTimeout,
-// 	}
+	logger := logging.GetLoggerInstance()
+	shutdownError := make(chan error)
 
-// 	shutdowmChan := make(chan error)
+	go func() {
+		quit := make(chan os.Signal, 1)
+		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+		s := <-quit
 
-// 	go func ()  {
-// 		quit := make(chan os.Signal, 1)
-// 		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-// 		s := <- quit
+		logger.PrintInfo("caught signal:" + s.String())
 
-// 		ctx, cancel := context.WithTimeout(context.Background(), endTimeLimit)
-// 		defer cancel()
+		ctx, cancel := context.WithTimeout(context.Background(), time.Duration(cfg.EndTimeLimit)*time.Second)
+		defer cancel()
 
-// 	}
+		err := srv.Shutdown(ctx)
+		if err != nil {
+			shutdownError <- err
+		}
 
-// }
+		logger.PrintInfo("completing background tasks")
+		shutdownError <- nil
+	}()
+
+	logger.PrintInfo("starting server")
+
+	err := srv.ListenAndServe()
+	if !errors.Is(err, http.ErrServerClosed) {
+		logger.PrintFatal(err)
+	}
+
+	err = <-shutdownError
+	if err != nil {
+		logger.PrintError(err)
+	}
+
+	return err
+}

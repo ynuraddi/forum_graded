@@ -8,3 +8,8 @@ type Comment struct {
 	AuthorID  uint64
 	CreatedAt time.Time
 }
+
+type CommentAddDTO struct {
+	PostID   uint64 `json:"post_id"`
+	AuthorID uint64 `json:"author_id"`
+}
