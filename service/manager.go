@@ -8,6 +8,6 @@ import (
 
 type Manager struct{}
 
-func Init(config *config.Config, logger *logger.Logger, repository *repository.Manager) (*Manager, error) {
+func Init(cfg *config.Config, lg *logger.Logger, repo *repository.Manager) (*Manager, error) {
 	return nil, nil
 }

@@ -24,23 +24,22 @@ func run() error {
 	gracefullyShutdown(cancel)
 
 	config := config.Init()
-
 	logger, err := logger.Init(config)
 	if err != nil {
 		return err
 	}
 
-	repository, err := repository.Init(config)
+	repository, err := repository.Init(config, logger)
 	if err != nil {
 		return err
 	}
 
-	service, err := service.Init(config, repository)
+	service, err := service.Init(config, logger, repository)
 	if err != nil {
 		return err
 	}
 
-	server := transport.Init(config, service)
+	server := transport.Init(config, logger, service)
 
 	return server.Run(ctx)
 }

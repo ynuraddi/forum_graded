@@ -1,12 +1,29 @@
 package repository
 
 import (
+	"context"
+
 	"graded/config"
 	"graded/logger"
+	"graded/model"
+	"graded/repository/sqlite"
 )
 
-type Manager struct{}
+type IUserRepository interface {
+	Create(ctx context.Context, user model.User) error
+	GetByID(ctx context.Context, uid int) (model.User, error)
+	GetByEmail(ctx context.Context, email string) (model.User, error)
+}
 
-func Init(config *config.Config, logger *logger.Logger) (*Manager, error) {
+type Manager struct {
+	User IUserRepository
+}
+
+func Init(cfg *config.Config, lg *logger.Logger) (*Manager, error) {
+	db, err := sqlite.OpenDB(cfg)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, nil
 }

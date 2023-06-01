@@ -22,13 +22,13 @@ type Server struct {
 	service *service.Manager
 }
 
-func Init(config *config.Config, logger *logger.Logger, service *service.Manager) *Server {
+func Init(cfg *config.Config, lg *logger.Logger, srv *service.Manager) *Server {
 	return &Server{
-		config: config,
-		logger: logger,
+		config: cfg,
+		logger: lg,
 
 		handler: initDefaultRouter(),
-		service: service,
+		service: srv,
 	}
 }
 

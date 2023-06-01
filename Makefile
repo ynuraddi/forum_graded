@@ -1,4 +1,4 @@
-export DSN_MIGRATIONS="./repostiroy/sqlite/migrations"
+export DSN_MIGRATIONS="./repository/sqlite/migrations"
 
 test:
 	go test -v ./...

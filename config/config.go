@@ -9,8 +9,7 @@ type Config struct {
 	} `json:"http"`
 
 	DATABASE struct {
-		HOST string `json:"host"`
-		PORT string `json:"port"`
+		DSN string `json:"dsn"`
 	} `json:"database"`
 
 	LOGGER struct {
@@ -25,7 +24,7 @@ type Config struct {
 
 var once sync.Once
 
-func Init() (config *Config) {
+func Init() (cfg *Config) {
 	once.Do(func() {
 	})
 	return
