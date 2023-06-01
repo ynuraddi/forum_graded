@@ -1,0 +1,63 @@
+.form-inner {
+    margin-top: 55px;
+}
+
+.form__description {
+    font-size: 54px;
+    line-height: 72px;
+    font-weight: 400;
+}
+
+hr {
+    border: 1px solid #030122;
+}
+
+.form__body {
+    margin-top: 16px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+}
+
+.form__body *:not(input,br,textarea) {
+    margin-top: 20px;
+}
+
+.form__body  input[type*="email"], .form__body  input[type*="password"], .form__body  input[type*="text"]{
+    height: 25px;
+    border: none;
+    border-radius: 24px;
+    padding: 5px 20px;
+    min-width: 300px;
+    text-overflow: ellipsis;
+}
+
+.form__body label {
+    display: block;
+    padding-left: 10px;
+}
+
+.form__body button {
+    display: block;
+}
+
+.form__body fieldset {
+    border: none;
+}
+
+.form__body fieldset label {
+    display: inline;
+}
+
+.form__body input[type="checkbox"] {
+    margin-left: 10px;
+}
+
+textarea {
+    border: none;
+    border-radius: 10px;
+    resize: none;
+    min-width: 600px;
+    padding: 10px 15px;
+    font-size: 15px;
+}

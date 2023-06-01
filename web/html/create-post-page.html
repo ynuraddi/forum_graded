@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+
+    <link rel="stylesheet" href="/web/css/main.css">
+    <link rel="stylesheet" href="/web/css/header.css">
+    <link rel="stylesheet" href="/web/css/form.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="header__logo">
+                    <a href="#">.forum</a>
+                </div>
+                <ul class="header__auth">
+                    <li class="header__auth-item"><a class="link" href="">Login</a></li>
+                    <li class="header__auth-item"><a class="link link-dark" href="">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form-inner">
+                <div class="form__description">Create Post</div>
+                <hr>
+                <form class="form__body" action="#" method="post">
+                    <label for="email">Title</label>
+                    <input type="email" name="email" id="email">
+                    <fieldset>
+                        <input type="checkbox" name="category" id="cat1">
+                        <label for="cat1">Anime</label><br>
+                        <input type="checkbox" name="category" id="cat2">
+                        <label for="cat2">Manga</label><br>
+                        <input  type="checkbox" name="category" id="cat3">
+                        <label for="cat3">Border</label><br>
+                    </fieldset>
+                    <label for="content">Content</label>
+                    <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+
+</html>

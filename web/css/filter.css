@@ -1,0 +1,55 @@
+.filter {
+    margin-top: 50px;
+    color: white;
+    background-color: #030122;
+    width: 100%;
+    border-radius: 24px;
+    padding: 20px 30px;
+    font-weight: 400;
+    position: relative;
+}
+
+.filter h1 {
+    position: absolute;
+    top: 20%;
+    right: 30px;
+    font-size: 46px;
+    line-height: 64px;
+    font-weight: 400;
+}
+
+.filter a {
+    color: #030122;
+}
+
+.filter form {
+    margin-top: 16px;
+    display: flex;
+}
+
+.filter--category {
+    border: none;
+    display: inline-flex;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.filter--category label {
+    background-color: #171531;
+    padding: 8px 20px;
+    transition: .3s;
+}
+
+.filter--category input:checked+label {
+    background-color: white;
+    padding: 8px 30px;
+    color: #030122;
+}
+
+.filter--category input {
+    display: none;
+}
+
+.filter button {
+    margin-left: 20px;
+}

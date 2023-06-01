@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum-Graded</title>
+
+    <link rel="stylesheet" href="/web/css/main.css">
+    <link rel="stylesheet" href="/web/css/header.css">
+    <link rel="stylesheet" href="/web/css/home-page.css">
+    <link rel="stylesheet" href="/web/css/filter.css">
+    <link rel="stylesheet" href="/web/css/board.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="header__logo">
+                    <a href="#">.forum</a>
+                </div>
+                <ul class="header__auth">
+                    {{if .User}}
+                    <li class="header__auth-item"><a class="link" href="#">{{.User.Login}}</a></li>
+                    <li class="header__auth-item"><a class="link link-dark" href="/logout">Log Out</a></li>
+                    {{else}}
+                    <li class="header__auth-item"><a class="link" href="/signin">Sign In</a></li>
+                    <li class="header__auth-item"><a class="link link-dark" href="/signup">Sign Up</a></li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main>
+        <article class="about">
+            <div class="container">
+                <div class="about-inner">
+                    <h1 class="about__header">You can read and create posts and comments and rate them</h1>
+                    <p class="about__content">What's implemented here: Basic Auth, Open Auth</p>
+                </div>
+            </div>
+        </article>
+        <article class="posts">
+            <div class="container">
+                <div class="posts-inner">
+                    <div class="filter">
+                        <h1>filter</h1>
+                        <a class="link" href="/">All</a>
+                        <form action="/" method="get">
+                            <fieldset class="filter--category">
+                                <input type="checkbox" name="category" id="filter-created">
+                                <label for="filter-created">Created</label>
+                                <input type="checkbox" name="category" id="filter-liked">
+                                <label for="filter-liked">Liked</label>
+                                <input type="checkbox" name="category" id="filter-anime">
+                                <label for="filter-anime">Anime</label>
+                                <input type="checkbox" name="category" id="filter-manga">
+                                <label for="filter-manga">Manga</label>
+                            </fieldset><button type="submit">submit</button>
+                        </form>
+                    </div>
+                    <article class="board">
+                        {{if .Posts}}
+                        {{range .Posts}}
+                        <a href="/" class="board__item">
+                            <div class="item--photo">
+                                <img src="/web/logo.jpg" alt="">
+                            </div>
+                            <div class="item--name">
+                                <h1>Name</h1>
+                                <p>{{.User.Login}}</p>
+                            </div>
+                            <div class="item--email">
+                                <h1>Email</h1>
+                                <p>{{.User.Email}}</p>
+                            </div>
+                            <div class="item--first-line">
+                                <h1>{{.Title}}</h1>
+                                <p>{{.Content}}</p>
+                            </div>
+                            <div class="item--time">{{.CreatedAt}}</div>
+                        </a>
+                        {{end}}
+                        {{else}}
+                        {{end}}
+                    </article>
+                </div>
+            </div>
+        </article>
+    </main>
+
+
+</body>
+
+</html>

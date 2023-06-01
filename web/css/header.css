@@ -1,0 +1,27 @@
+.header *:not(.link-dark, .link) {
+    background-color: white;
+}
+
+.header-inner {
+    height: 88px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    box-shadow: 0px 48px 96px rgba(66, 62, 121, 0.06);
+}
+
+.header__logo {
+    font-size: 32px;
+    line-height: 24px;
+    width: 230px;
+}
+
+.header-inner ul {
+    display: flex;
+}
+
+.header__auth-item+.header__auth-item {
+    margin-left: 32px;
+}
