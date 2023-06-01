@@ -12,6 +12,15 @@ type Config struct {
 		HOST string `json:"host"`
 		PORT string `json:"port"`
 	} `json:"database"`
+
+	LOGGER struct {
+		LEVEL int `json:"level"`
+	} `json:"logger"`
+
+	CONTEXT struct {
+		USER    string `json:"user"`
+		REQUEST string `json:"request"`
+	} `json:"context"`
 }
 
 var once sync.Once

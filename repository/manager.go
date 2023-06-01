@@ -1,9 +1,12 @@
 package repository
 
-import "graded/config"
+import (
+	"graded/config"
+	"graded/logger"
+)
 
 type Manager struct{}
 
-func Init(config *config.Config) error {
-	return nil
+func Init(config *config.Config, logger *logger.Logger) (*Manager, error) {
+	return nil, nil
 }

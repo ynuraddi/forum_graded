@@ -5,6 +5,12 @@ import (
 	"log"
 	"os"
 	"os/signal"
+
+	"graded/config"
+	"graded/logger"
+	"graded/repository"
+	"graded/service"
+	"graded/transport"
 )
 
 func main() {
@@ -17,7 +23,26 @@ func run() error {
 
 	gracefullyShutdown(cancel)
 
-	return nil
+	config := config.Init()
+
+	logger, err := logger.Init(config)
+	if err != nil {
+		return err
+	}
+
+	repository, err := repository.Init(config)
+	if err != nil {
+		return err
+	}
+
+	service, err := service.Init(config, repository)
+	if err != nil {
+		return err
+	}
+
+	server := transport.Init(config, service)
+
+	return server.Run(ctx)
 }
 
 func gracefullyShutdown(cancel context.CancelFunc) {

@@ -8,20 +8,27 @@ import (
 	"time"
 
 	"graded/config"
+	"graded/logger"
+	"graded/service"
 )
 
 type Server struct {
 	http.Server
 
 	config *config.Config
+	logger *logger.Logger
 
 	handler http.Handler
+	service *service.Manager
 }
 
-func Init(config *config.Config) *Server {
+func Init(config *config.Config, logger *logger.Logger, service *service.Manager) *Server {
 	return &Server{
-		config:  config,
+		config: config,
+		logger: logger,
+
 		handler: initDefaultRouter(),
+		service: service,
 	}
 }
 
