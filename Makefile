@@ -6,6 +6,7 @@ test:
 commit:
 	@read -p 'Что ты сделал: ' value; \
 	git add .
+	echo $$$$value
 	git commit -m $$$$value
 
 migrate-create:
