@@ -3,12 +3,13 @@ package sqlite
 import (
 	"context"
 	"database/sql"
-	"os"
-	"path/filepath"
 	"strings"
 	"time"
 
 	"graded/config"
+	"graded/utils"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func OpenDB(cfg *config.Config) (*sql.DB, error) {
@@ -24,20 +25,13 @@ func OpenDB(cfg *config.Config) (*sql.DB, error) {
 		return nil, err
 	}
 
-	query := ""
-	migrations, err := filepath.Glob(filepath.Join("./repository/sqlite/migrations", "*.up.sql"))
+	// TODO added migrationsPath to config
+	migrations, err := utils.ParseDirectoryFiles("", "*up.sql")
 	if err != nil {
 		return nil, err
 	}
-	for _, migration := range migrations {
-		tmp, err := os.ReadFile(migration)
-		if err != nil {
-			return nil, err
-		}
-		query += string(tmp)
-	}
 
-	if _, err := db.ExecContext(ctx, query); err != nil {
+	if _, err := db.ExecContext(ctx, migrations); err != nil {
 		return nil, err
 	}
 
@@ -45,5 +39,5 @@ func OpenDB(cfg *config.Config) (*sql.DB, error) {
 }
 
 func isDuplicate(err error) bool {
-	return strings.Contains(err.Error(), "unique")
+	return strings.Contains(err.Error(), "UNIQUE")
 }

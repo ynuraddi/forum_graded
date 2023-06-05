@@ -20,7 +20,7 @@ type Manager struct {
 }
 
 func Init(cfg *config.Config, lg *logger.Logger) (*Manager, error) {
-	db, err := sqlite.OpenDB(cfg)
+	_, err := sqlite.OpenDB(cfg)
 	if err != nil {
 		return nil, err
 	}

@@ -5,20 +5,17 @@ import (
 	"database/sql"
 	"fmt"
 
-	"graded/logger"
 	"graded/model"
 	"graded/pkg/errors"
 )
 
 type userRepository struct {
-	logger *logger.Logger
-	db     *sql.DB
+	db *sql.DB
 }
 
-func InitUserRepo(db *sql.DB, lg *logger.Logger) *userRepository {
+func InitUserRepo(db *sql.DB) *userRepository {
 	return &userRepository{
-		db:     db,
-		logger: lg,
+		db: db,
 	}
 }
 
@@ -30,9 +27,10 @@ func (r *userRepository) Create(ctx context.Context, user model.User) (int64, er
 	values ($1, $2, $3)`
 
 	res, err := r.db.ExecContext(ctx, query, &user.Login, &user.Email, &user.Password)
-	if isDuplicate(err) {
-		return -1, fmt.Errorf(userPath, "Create", errors.ErrDuplicateValue)
-	} else if err != nil {
+	if err != nil {
+		if isDuplicate(err) {
+			return -1, fmt.Errorf(userPath, "Create", errors.ErrDuplicateValue)
+		}
 		return -1, fmt.Errorf(userPath, "Create", err)
 	}
 
