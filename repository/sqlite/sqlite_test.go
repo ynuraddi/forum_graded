@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	DSN            = "./test_db.sqlite"
+	DSN            = "./test/test_db.sqlite"
 	migrationsPath = "./migrations"
 	testPort       = "1234"
 )
@@ -27,7 +27,6 @@ func TestMain(m *testing.M) {
 		log.Printf("failed setup test database: %s\n", err)
 		return
 	}
-	defer DeleteDatabase(ctx)
 	defer db.Close()
 
 	testDB = db
@@ -64,10 +63,10 @@ func SetupTestDatabase(ctx context.Context) (*sql.DB, error) {
 	return db, nil
 }
 
-func DeleteDatabase(ctx context.Context) error {
-	if err := os.Remove(DSN); err != nil {
-		log.Println(err)
-		return err
-	}
-	return nil
-}
+// func DeleteDatabase(ctx context.Context) error {
+// 	if err := os.Remove(DSN); err != nil {
+// 		log.Println(err)
+// 		return err
+// 	}
+// 	return nil
+// }

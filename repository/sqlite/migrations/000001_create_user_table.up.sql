@@ -1,8 +1,8 @@
-create table if not exists users(
-   id serial primary key,
-   login varchar unique not null,
-   email varchar unique not null,
-   hash_password varchar not null,
-   is_active boolean not null default true,
-   version int not null default 1
+create table if not exists users (
+   id integer primary key autoincrement,
+   login varchar(50) unique not null,
+   email varchar(50) unique not null,
+   hash_password varchar(100) not null,
+   is_active boolean default true,
+   version integer not null default 1
 );

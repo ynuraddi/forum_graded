@@ -11,7 +11,7 @@ import (
 
 type IUserRepository interface {
 	Create(ctx context.Context, user model.User) error
-	GetByID(ctx context.Context, uid int) (model.User, error)
+	GetByID(ctx context.Context, uid int64) (model.User, error)
 	GetByEmail(ctx context.Context, email string) (model.User, error)
 }
 

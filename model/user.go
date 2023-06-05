@@ -6,5 +6,5 @@ type User struct {
 	Email    string
 	Password string
 	IsActive bool
-	Version  string
+	Version  int64
 }
