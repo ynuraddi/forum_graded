@@ -71,3 +71,32 @@ func (r *userRepository) GetByID(ctx context.Context, uid int64) (user model.Use
 
 	return user, nil
 }
+
+func (r *userRepository) GetByEmail(ctx context.Context, email string) (user model.User, err error) {
+	query := `
+	select 
+		id,
+		login,
+		email,
+		hash_password,
+		is_active,
+		version
+	from users
+	where email = $1`
+
+	if err := r.db.QueryRowContext(ctx, query, email).Scan(
+		&user.ID,
+		&user.Login,
+		&user.Email,
+		&user.Password,
+		&user.IsActive,
+		&user.Version,
+	); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return model.User{}, fmt.Errorf(userPath, "GetByID", erring.ErrNoData)
+		}
+		return model.User{}, fmt.Errorf(userPath, "GetByID", err)
+	}
+
+	return user, nil
+}

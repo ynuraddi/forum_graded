@@ -72,7 +72,7 @@ func TestUser(t *testing.T) {
 			wantErr:  erring.ErrNoData,
 		},
 		{
-			name:     "Negative ID",
+			name:     "GetById negativeID",
 			input:    -1,
 			wantUser: model.User{},
 			wantErr:  erring.ErrNoData,
@@ -82,6 +82,47 @@ func TestUser(t *testing.T) {
 	for _, test := range casesGetByID {
 		t.Run(test.name, func(t *testing.T) {
 			getUser, getErr := userRepository.GetByID(ctx, test.input)
+			assert.ErrorIs(t, getErr, test.wantErr)
+			assert.Equal(t, getUser, test.wantUser)
+		})
+	}
+
+	// GetByEmail
+	casesGetByEmail := []struct {
+		name     string
+		input    string
+		wantUser model.User
+		wantErr  error
+	}{
+		{
+			name:     "GetByEmail nil",
+			input:    "aboba@mail.ru",
+			wantUser: testUser,
+			wantErr:  nil,
+		},
+		{
+			name:     "GetByEmail noValue",
+			input:    "zhopa@mail.ru",
+			wantUser: model.User{},
+			wantErr:  erring.ErrNoData,
+		},
+		{
+			name:     "GetByEmail wrongValue",
+			input:    "zhopa",
+			wantUser: model.User{},
+			wantErr:  erring.ErrNoData,
+		},
+		{
+			name:     "GetByEmail emptyInput",
+			input:    "",
+			wantUser: model.User{},
+			wantErr:  erring.ErrNoData,
+		},
+	}
+
+	for _, test := range casesGetByEmail {
+		t.Run(test.name, func(t *testing.T) {
+			getUser, getErr := userRepository.GetByEmail(ctx, test.input)
 			assert.ErrorIs(t, getErr, test.wantErr)
 			assert.Equal(t, getUser, test.wantUser)
 		})
